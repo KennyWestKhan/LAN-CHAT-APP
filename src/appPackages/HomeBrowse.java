@@ -4,16 +4,10 @@
  * and open the template in the editor.
  */
 package appPackages;
-import javax.swing.JEditorPane;
-import com.sun.glass.events.KeyEvent;
 import java.awt.Color;
 import javax.swing.JOptionPane;
-import javax.swing.UIManager;
 
-/**
- *
- * @author Kwadwo
- */
+
 public class HomeBrowse extends javax.swing.JFrame {
 
 
@@ -22,11 +16,12 @@ public class HomeBrowse extends javax.swing.JFrame {
      */
     public HomeBrowse() {
         initComponents();
-        this.setSize(743, 528);
+//        this.setSize(745, 623);
+        setTitle("PitchTalk 1.2 on " + new NetInfo().say());
         this.getContentPane().setBackground(Color.WHITE);
         this.pack();
         this.setLocationRelativeTo(this);
-        setTitle("PitchTalk 1.2 - " + new NetInfo().say());
+        
     }
     
 
@@ -41,7 +36,7 @@ public class NetInfo {
        i.getHostName();
         return i.getHostName();
        }
-       catch(Exception e){e.printStackTrace();}
+       catch(Exception e){}
        return null;
      }
     }
@@ -57,9 +52,16 @@ public class NetInfo {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        website = new javax.swing.JLayeredPane();
-        jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        jPanel2 = new javax.swing.JPanel();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        website4 = new javax.swing.JTextPane();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        website = new javax.swing.JTextPane();
+        nameLabel = new javax.swing.JLabel();
+        nameLabel1 = new javax.swing.JLabel();
+        jPanel1 = new javax.swing.JPanel();
         menuBar = new javax.swing.JMenuBar();
         fileMenu = new javax.swing.JMenu();
         saveMenuItem = new javax.swing.JMenuItem();
@@ -74,7 +76,64 @@ public class NetInfo {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 0, 0));
 
-        website.setBorder(javax.swing.BorderFactory.createTitledBorder("News from the school"));
+        jLabel1.setFont(new java.awt.Font("Berlin Sans FB", 0, 18)); // NOI18N
+        jLabel1.setText("Dashboard");
+
+        jLabel7.setFont(new java.awt.Font("Segoe MDL2 Assets", 0, 48)); // NOI18N
+        jLabel7.setText("");
+        jLabel7.setToolTipText("Clear all fields");
+        jLabel7.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jLabel7.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel7MouseClicked(evt);
+            }
+        });
+
+        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Upcoming"));
+
+        website4.setEditable(false);
+        website4.setBorder(javax.swing.BorderFactory.createTitledBorder("Message"));
+        website4.setText("No messages...");
+        jScrollPane5.setViewportView(website4);
+
+        website.setEditable(false);
+        website.setBorder(javax.swing.BorderFactory.createTitledBorder("Message"));
+        website.setText("No messages...");
+        website.setToolTipText("Important Announcement from Senior Lecturers and Teaching Assistants");
+        jScrollPane1.setViewportView(website);
+
+        nameLabel.setFont(new java.awt.Font("Berlin Sans FB", 0, 14)); // NOI18N
+        nameLabel.setText("NAME");
+
+        nameLabel1.setFont(new java.awt.Font("Berlin Sans FB", 0, 14)); // NOI18N
+        nameLabel1.setText("NAME");
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1)
+                    .addComponent(nameLabel)
+                    .addComponent(nameLabel1)
+                    .addComponent(jScrollPane5))
+                .addContainerGap())
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(nameLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(13, 13, 13)
+                .addComponent(nameLabel1)
+                .addGap(10, 10, 10)
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Recent Updates"));
 
@@ -82,33 +141,12 @@ public class NetInfo {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 681, Short.MAX_VALUE)
+            .addGap(0, 0, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 518, Short.MAX_VALUE)
+            .addGap(0, 270, Short.MAX_VALUE)
         );
-
-        javax.swing.GroupLayout websiteLayout = new javax.swing.GroupLayout(website);
-        website.setLayout(websiteLayout);
-        websiteLayout.setHorizontalGroup(
-            websiteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(websiteLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        websiteLayout.setVerticalGroup(
-            websiteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(websiteLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(44, Short.MAX_VALUE))
-        );
-        website.setLayer(jPanel1, javax.swing.JLayeredPane.DEFAULT_LAYER);
-
-        jLabel1.setFont(new java.awt.Font("Berlin Sans FB", 0, 18)); // NOI18N
-        jLabel1.setText("Dashboard");
 
         fileMenu.setMnemonic('f');
         fileMenu.setText("File");
@@ -184,22 +222,31 @@ public class NetInfo {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(website)
-                .addContainerGap())
-            .addGroup(layout.createSequentialGroup()
-                .addGap(293, 293, 293)
+                .addGap(310, 310, 310)
                 .addComponent(jLabel1)
-                .addContainerGap(371, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel7)
+                .addGap(90, 90, 90))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(0, 0, 0)
                 .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(website, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addGap(18, 18, 18)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel7)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -238,12 +285,27 @@ public class NetInfo {
     private void saveMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveMenuItemActionPerformed
         // TODO add your handling code here:
         try {
-            String URL ="https://kpoly.edu.gh/";
+            String URL ="http://kpoly.edu.gh/";
             java.awt.Desktop.getDesktop().browse(java.net.URI.create(URL));
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
         }
     }//GEN-LAST:event_saveMenuItemActionPerformed
+
+    private void jLabel7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel7MouseClicked
+        // TODO add your handling code here:
+        website.setText("");
+        website4.setText("");
+//        website5.setText("");
+//        website6.setText("");
+//        website7.setText("");
+        nameLabel.setText("NAME");
+        nameLabel1.setText("NAME");
+//        nameLabel2.setText("NAME");
+//        nameLabel3.setText("NAME");
+//        nameLabel4.setText("NAME");
+//        
+    }//GEN-LAST:event_jLabel7MouseClicked
 
     /**
      * @param args the command line arguments
@@ -277,6 +339,10 @@ public class NetInfo {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
+                try {
+                    Thread.sleep(3000);
+                } catch (Exception e) {
+                }
                 new HomeBrowse().setVisible(true);
             }
         });
@@ -288,14 +354,21 @@ public class NetInfo {
     private javax.swing.JMenuItem exitMenuItem;
     private javax.swing.JMenu fileMenu;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JMenuBar menuBar;
+    private javax.swing.JLabel nameLabel;
+    private javax.swing.JLabel nameLabel1;
     private javax.swing.JMenuItem saveAsMenuItem;
     private javax.swing.JMenuItem saveMenuItem;
-    public static javax.swing.JLayeredPane website;
+    private javax.swing.JTextPane website;
+    private javax.swing.JTextPane website4;
     // End of variables declaration//GEN-END:variables
 
 }

@@ -1,12 +1,8 @@
 package pitchtalk1.pkg1;
 
-import appPackages.Home;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.util.Enumeration;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.JOptionPane;
 
 /**
  *

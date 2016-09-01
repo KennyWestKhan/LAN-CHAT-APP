@@ -25,6 +25,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
 public class MainScreen extends javax.swing.JFrame implements WritableGUI{
+//    SimpleDateFormat sdf = new SimpleDateFormat("hh:mm:ss a");
+//    File file;
 
     /**
      * Creates new form MainScreen
@@ -32,10 +34,14 @@ public class MainScreen extends javax.swing.JFrame implements WritableGUI{
     public MainScreen() {
         initComponents();
         setLocationRelativeTo(this);
+        this.setSize(550, 647);
         this.getContentPane().setBackground(Color.WHITE);
         setTitle("Private Chat");
         cancelButton.setVisible(false);
-//        jLabel1.getText();
+        hideMenu.setVisible(false);
+        setTitle("YOU'RE SIGNED IN ON " + new MainScreen.NetInfo().say());
+        jLabel3.setText(new MainScreen.NetInfo().say());
+        
     }
 
     /**
@@ -52,11 +58,14 @@ public class MainScreen extends javax.swing.JFrame implements WritableGUI{
         message = new javax.swing.JTextField();
         sendButton = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
-        jLabel6 = new javax.swing.JLabel();
         listenButton = new javax.swing.JButton();
         receivePort = new javax.swing.JTextField();
         ipTextField = new javax.swing.JTextField();
         targetPort = new javax.swing.JTextField();
+        screenIcon = new javax.swing.JLabel();
+        sendIcon = new javax.swing.JLabel();
+        chatRoomIcon = new javax.swing.JLabel();
+        closeShutIcon = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
@@ -71,12 +80,29 @@ public class MainScreen extends javax.swing.JFrame implements WritableGUI{
         jLabel11 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         cancelButton = new javax.swing.JButton();
-        jLabel4 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
-        jLabel13 = new javax.swing.JLabel();
+        HoverBar = new javax.swing.JTextField();
+        jButton1 = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        jMenu1 = new javax.swing.JMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
+        jMenuItem2 = new javax.swing.JMenuItem();
+        hideMenu = new javax.swing.JMenuItem();
+        unHide = new javax.swing.JMenuItem();
+        jMenuItem11 = new javax.swing.JMenuItem();
+        jMenuItem12 = new javax.swing.JMenuItem();
+        jMenu2 = new javax.swing.JMenu();
+        jMenuItem3 = new javax.swing.JMenuItem();
+        jMenu3 = new javax.swing.JMenu();
+        jMenuItem4 = new javax.swing.JMenuItem();
+        jMenuItem5 = new javax.swing.JMenuItem();
+        jMenuItem6 = new javax.swing.JMenuItem();
+        jMenuItem7 = new javax.swing.JMenuItem();
+        jMenuItem8 = new javax.swing.JMenuItem();
+        jMenuItem9 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
@@ -89,10 +115,28 @@ public class MainScreen extends javax.swing.JFrame implements WritableGUI{
         });
 
         chat.setEditable(false);
+        chat.setBackground(new java.awt.Color(0, 0, 0));
         chat.setColumns(20);
+        chat.setFont(new java.awt.Font("Lucida Console", 0, 14)); // NOI18N
+        chat.setForeground(new java.awt.Color(0, 255, 255));
         chat.setRows(5);
         jScrollPane1.setViewportView(chat);
 
+        message.addCaretListener(new javax.swing.event.CaretListener() {
+            public void caretUpdate(javax.swing.event.CaretEvent evt) {
+                messageCaretUpdate(evt);
+            }
+        });
+        message.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseMoved(java.awt.event.MouseEvent evt) {
+                messageMouseMoved(evt);
+            }
+        });
+        message.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                messageMouseExited(evt);
+            }
+        });
         message.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 messageKeyPressed(evt);
@@ -108,9 +152,6 @@ public class MainScreen extends javax.swing.JFrame implements WritableGUI{
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
-        jLabel6.setFont(new java.awt.Font("Berlin Sans FB", 0, 18)); // NOI18N
-        jLabel6.setText("Chat Buddy");
-
         listenButton.setText("Listen");
         listenButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         listenButton.addActionListener(new java.awt.event.ActionListener() {
@@ -121,6 +162,16 @@ public class MainScreen extends javax.swing.JFrame implements WritableGUI{
 
         receivePort.setText("8877");
         receivePort.setToolTipText("Listening Port");
+        receivePort.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseMoved(java.awt.event.MouseEvent evt) {
+                receivePortMouseMoved(evt);
+            }
+        });
+        receivePort.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                receivePortMouseExited(evt);
+            }
+        });
         receivePort.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 receivePortKeyTyped(evt);
@@ -128,10 +179,113 @@ public class MainScreen extends javax.swing.JFrame implements WritableGUI{
         });
 
         ipTextField.setToolTipText("IP Address");
+        ipTextField.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseMoved(java.awt.event.MouseEvent evt) {
+                ipTextFieldMouseMoved(evt);
+            }
+        });
+        ipTextField.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                ipTextFieldMouseExited(evt);
+            }
+        });
 
+        targetPort.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseMoved(java.awt.event.MouseEvent evt) {
+                targetPortMouseMoved(evt);
+            }
+        });
+        targetPort.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                targetPortMouseExited(evt);
+            }
+        });
         targetPort.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 targetPortKeyTyped(evt);
+            }
+        });
+
+        screenIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/appPackages/SCREENSHOT.png"))); // NOI18N
+        screenIcon.setToolTipText("Take screenshot of message");
+        screenIcon.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        screenIcon.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseMoved(java.awt.event.MouseEvent evt) {
+                screenIconMouseMoved(evt);
+            }
+        });
+        screenIcon.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                screenIconMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                screenIconMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                screenIconMouseExited(evt);
+            }
+        });
+
+        sendIcon.setFont(new java.awt.Font("Berlin Sans FB", 0, 12)); // NOI18N
+        sendIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/appPackages/mail-flat.png"))); // NOI18N
+        sendIcon.setToolTipText("Send File");
+        sendIcon.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        sendIcon.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseMoved(java.awt.event.MouseEvent evt) {
+                sendIconMouseMoved(evt);
+            }
+        });
+        sendIcon.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                sendIconMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                sendIconMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                sendIconMouseExited(evt);
+            }
+        });
+
+        chatRoomIcon.setFont(new java.awt.Font("Berlin Sans FB", 0, 12)); // NOI18N
+        chatRoomIcon.setIcon(new javax.swing.ImageIcon("C:\\Users\\Kenny\\Documents\\chat.png")); // NOI18N
+        chatRoomIcon.setToolTipText("Join Chatroom");
+        chatRoomIcon.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        chatRoomIcon.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseMoved(java.awt.event.MouseEvent evt) {
+                chatRoomIconMouseMoved(evt);
+            }
+        });
+        chatRoomIcon.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                chatRoomIconMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                chatRoomIconMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                chatRoomIconMouseExited(evt);
+            }
+        });
+
+        closeShutIcon.setFont(new java.awt.Font("Berlin Sans FB", 0, 12)); // NOI18N
+        closeShutIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/appPackages/Sign-out_flat-circle-white-on-red_512x512.png"))); // NOI18N
+        closeShutIcon.setToolTipText("Closes app and shuts down PC");
+        closeShutIcon.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        closeShutIcon.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseMoved(java.awt.event.MouseEvent evt) {
+                closeShutIconMouseMoved(evt);
+            }
+        });
+        closeShutIcon.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                closeShutIconMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                closeShutIconMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                closeShutIconMouseExited(evt);
             }
         });
 
@@ -139,23 +293,38 @@ public class MainScreen extends javax.swing.JFrame implements WritableGUI{
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel6))
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(listenButton)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(receivePort, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(ipTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 232, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(targetPort, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(listenButton)
+                        .addGap(27, 27, 27)
+                        .addComponent(receivePort, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(screenIcon)))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(sendIcon)
+                        .addGap(72, 72, 72)
+                        .addComponent(chatRoomIcon)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(closeShutIcon))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(ipTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 232, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(targetPort, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(51, 51, 51))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(jLabel6)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                    .addComponent(closeShutIcon)
+                    .addComponent(screenIcon)
+                    .addComponent(sendIcon)
+                    .addComponent(chatRoomIcon))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 9, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(listenButton)
                     .addComponent(receivePort, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -214,7 +383,7 @@ public class MainScreen extends javax.swing.JFrame implements WritableGUI{
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 168, Short.MAX_VALUE)
+            .addGap(0, 142, Short.MAX_VALUE)
         );
 
         cancelButton.setText("Cancel");
@@ -246,7 +415,7 @@ public class MainScreen extends javax.swing.JFrame implements WritableGUI{
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(jPanel2Layout.createSequentialGroup()
                                         .addComponent(cancelButton)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 167, Short.MAX_VALUE)
                                         .addComponent(editButton, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(5, 5, 5))
                                     .addComponent(eMail)))))
@@ -294,48 +463,8 @@ public class MainScreen extends javax.swing.JFrame implements WritableGUI{
                 .addGap(16, 16, 16))
         );
 
-        jLabel4.setFont(new java.awt.Font("Berlin Sans FB", 0, 12)); // NOI18N
-        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/appPackages/Sign-out_flat-circle-white-on-red_512x512.png"))); // NOI18N
-        jLabel4.setToolTipText("Closes app and shuts down PC");
-        jLabel4.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jLabel4.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel4MouseClicked(evt);
-            }
-        });
-
-        jLabel2.setFont(new java.awt.Font("Berlin Sans FB", 0, 12)); // NOI18N
-        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/appPackages/rec.png"))); // NOI18N
-        jLabel2.setToolTipText("Record audio");
-        jLabel2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jLabel2.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel2MouseClicked(evt);
-            }
-        });
-
-        jLabel5.setFont(new java.awt.Font("Berlin Sans FB", 0, 12)); // NOI18N
-        jLabel5.setIcon(new javax.swing.ImageIcon("C:\\Users\\Kenny\\Documents\\chat.png")); // NOI18N
-        jLabel5.setToolTipText("Join Chatroom");
-        jLabel5.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jLabel5.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel5MouseClicked(evt);
-            }
-        });
-
-        jLabel3.setFont(new java.awt.Font("Berlin Sans FB", 0, 12)); // NOI18N
-        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/appPackages/mail-flat.png"))); // NOI18N
-        jLabel3.setToolTipText("Send File");
-        jLabel3.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jLabel3.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel3MouseClicked(evt);
-            }
-        });
-
         jLabel12.setFont(new java.awt.Font("Berlin Sans FB", 0, 12)); // NOI18N
-        jLabel12.setText("Go to home view (?)");
+        jLabel12.setText("Sign out (?)");
         jLabel12.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jLabel12.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
@@ -343,14 +472,128 @@ public class MainScreen extends javax.swing.JFrame implements WritableGUI{
             }
         });
 
-        jLabel13.setIcon(new javax.swing.ImageIcon(getClass().getResource("/appPackages/SCREENSHOT.png"))); // NOI18N
-        jLabel13.setToolTipText("Take screenshot of message");
-        jLabel13.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jLabel13.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel13MouseClicked(evt);
+        HoverBar.setEditable(false);
+        HoverBar.setForeground(new java.awt.Color(22, 30, 30));
+        HoverBar.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        HoverBar.setBorder(null);
+        HoverBar.setOpaque(false);
+        HoverBar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                HoverBarActionPerformed(evt);
             }
         });
+
+        jButton1.setText("...");
+        jButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        jLabel2.setText("YOUR IP ADDRESS IS");
+
+        jLabel3.setText("IP");
+
+        jLabel4.setFont(new java.awt.Font("Segoe MDL2 Assets", 0, 12)); // NOI18N
+        jLabel4.setText("");
+        jLabel4.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jLabel4.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel4MouseClicked(evt);
+            }
+        });
+
+        jMenu1.setText("File");
+
+        jMenuItem1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_V, java.awt.event.InputEvent.CTRL_MASK));
+        jMenuItem1.setText("View IP Address");
+        jMenu1.add(jMenuItem1);
+
+        jMenuItem2.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_L, java.awt.event.InputEvent.CTRL_MASK));
+        jMenuItem2.setText("Listen");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem2);
+
+        hideMenu.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F5, 0));
+        hideMenu.setText("Hide Side Bar");
+        hideMenu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                hideMenuActionPerformed(evt);
+            }
+        });
+        jMenu1.add(hideMenu);
+
+        unHide.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F6, 0));
+        unHide.setText("Unhide Bar");
+        unHide.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                unHideActionPerformed(evt);
+            }
+        });
+        jMenu1.add(unHide);
+
+        jMenuItem11.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_LEFT, java.awt.event.InputEvent.CTRL_MASK));
+        jMenuItem11.setText("Go to home view (?)");
+        jMenuItem11.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem11ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem11);
+
+        jMenuItem12.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, java.awt.event.InputEvent.CTRL_MASK));
+        jMenuItem12.setText("Post Announcement");
+        jMenuItem12.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem12ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem12);
+
+        jMenuBar1.add(jMenu1);
+
+        jMenu2.setText("Help");
+
+        jMenuItem3.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F1, 0));
+        jMenuItem3.setText("Quick Help");
+        jMenu2.add(jMenuItem3);
+
+        jMenu3.setText("How To");
+
+        jMenuItem4.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_V, java.awt.event.InputEvent.ALT_MASK));
+        jMenuItem4.setText("View Chat Buddy IP Address");
+        jMenu3.add(jMenuItem4);
+
+        jMenuItem5.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_MASK));
+        jMenuItem5.setText("Screenshot");
+        jMenu3.add(jMenuItem5);
+
+        jMenuItem6.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_R, java.awt.event.InputEvent.CTRL_MASK));
+        jMenuItem6.setText("Record");
+        jMenu3.add(jMenuItem6);
+
+        jMenuItem7.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.SHIFT_MASK));
+        jMenuItem7.setText("Send File");
+        jMenu3.add(jMenuItem7);
+
+        jMenuItem8.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F2, java.awt.event.InputEvent.CTRL_MASK));
+        jMenuItem8.setText("Join Chatroom");
+        jMenu3.add(jMenuItem8);
+
+        jMenuItem9.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F4, 0));
+        jMenuItem9.setText("Sign-out");
+        jMenu3.add(jMenuItem9);
+
+        jMenu2.add(jMenu3);
+
+        jMenuBar1.add(jMenu2);
+
+        setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -358,68 +601,95 @@ public class MainScreen extends javax.swing.JFrame implements WritableGUI{
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                        .addComponent(message, javax.swing.GroupLayout.PREFERRED_SIZE, 463, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollPane1)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(message, javax.swing.GroupLayout.PREFERRED_SIZE, 407, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(sendButton))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 524, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(49, 49, 49)
-                        .addComponent(jLabel13)
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 62, Short.MAX_VALUE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, 62, Short.MAX_VALUE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, 62, Short.MAX_VALUE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, 62, Short.MAX_VALUE)
-                        .addGap(21, 21, 21))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel12)
-                        .addContainerGap())))
+                        .addComponent(jLabel4)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel12))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel3)))
+                .addContainerGap())
             .addGroup(layout.createSequentialGroup()
                 .addGap(542, 542, 542)
                 .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(HoverBar)
+                .addGap(79, 79, 79))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(20, 20, 20)
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel4)
-                            .addComponent(jLabel5)
-                            .addComponent(jLabel13))
-                        .addGap(27, 27, 27))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jLabel12)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel12)
+                            .addComponent(jLabel4))
+                        .addGap(11, 11, 11)
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 426, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(6, 6, 6)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(message)
-                    .addComponent(sendButton))
-                .addGap(18, 18, 18))
+                    .addComponent(sendButton)
+                    .addComponent(jButton1)
+                    .addComponent(message))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(HoverBar, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(55, 55, 55)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(jLabel3))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+public class NetInfo {
+ 
+     public String say() {
+       try {
+       java.net.InetAddress i = java.net.InetAddress.getLocalHost();
+//       System.out.println(i);                  // name and IP address
+       System.out.println(i.getHostName());    // name
+//       System.out.println(i.getHostAddress()); // IP address only
+       i.getHostAddress();
+//       i.getHostName();
+        return i.getHostAddress();
+       }
+       catch(Exception e){e.printStackTrace();}
+       return null;
+     }
+    }
+//public void appendMessage(String msg){
+//        Date date = new Date();
+//        chat.append(sdf.format(date) +": "+ msg +"\n");
+//    }
+//public class ip{
+//    public void ip (){
+//        ipTextField.setText(new MainScreen.NetInfo().say());
+//        
+//    }
+//}
+//ip= ipTextField.setText(new MainScreen.NetInfo().say());
+
+    
     private void receivePortKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_receivePortKeyTyped
         // TODO add your handling code here:
         char c= evt.getKeyChar();
@@ -443,6 +713,7 @@ public class MainScreen extends javax.swing.JFrame implements WritableGUI{
         // TODO add your handling code here:
         listener = new MessageListener(this,Integer.parseInt(receivePort.getText()));
         listener.start();
+        HoverBar.setText("Listening");
     }//GEN-LAST:event_listenButtonActionPerformed
 
     private void sendButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sendButtonActionPerformed
@@ -467,11 +738,12 @@ public class MainScreen extends javax.swing.JFrame implements WritableGUI{
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         // TODO add your handling code here:
-        ipTextField.requestFocusInWindow();
-        ipTextField.setText(pitchtalk1.pkg1.ipClass.ipAddress);
+//        ipTextField.requestFocusInWindow();
+//        ipTextField.setText(pitchtalk1.pkg1.ipClass.ipAddress);
+        message.requestFocusInWindow();
     }//GEN-LAST:event_formWindowOpened
 
-    private void jLabel4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel4MouseClicked
+    private void closeShutIconMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_closeShutIconMouseClicked
         // TODO add your handling code here:
         getToolkit().beep();
         int i = JOptionPane.showConfirmDialog(this, "THIS WILL CLOSE ALL APPS AND SHUT DOWN PC \n CONTINUE?", "WARNING !", JOptionPane.YES_NO_OPTION);
@@ -483,32 +755,28 @@ public class MainScreen extends javax.swing.JFrame implements WritableGUI{
                 System.err.println();
             }
         
-    }//GEN-LAST:event_jLabel4MouseClicked
+    }//GEN-LAST:event_closeShutIconMouseClicked
     }
-    private void jLabel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MouseClicked
+    private void sendIconMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_sendIconMouseClicked
         // TODO add your handling code here:
         AttachmentForm form = new AttachmentForm();
         form.show();
-        disable();
-    }//GEN-LAST:event_jLabel3MouseClicked
+//        disable();
+    }//GEN-LAST:event_sendIconMouseClicked
 
-    private void jLabel5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel5MouseClicked
+    private void chatRoomIconMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_chatRoomIconMouseClicked
         // TODO add your handling code here:
         dispose();
         client.LoginForm login = new LoginForm();
         login.show();
 
-    }//GEN-LAST:event_jLabel5MouseClicked
-
-    private void jLabel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel2MouseClicked
-        // TODO add your handling code here:
-        //        this.dispose();
-    }//GEN-LAST:event_jLabel2MouseClicked
+    }//GEN-LAST:event_chatRoomIconMouseClicked
 
     private void jLabel12MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel12MousePressed
         // TODO add your handling code here:
         dispose();
-        new HomeBrowse().show();
+//        new HomeBrowse().show();
+        new Home().show();
     }//GEN-LAST:event_jLabel12MousePressed
 
     private void editButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editButtonActionPerformed
@@ -522,18 +790,18 @@ public class MainScreen extends javax.swing.JFrame implements WritableGUI{
         cancelButton.setVisible(true);
     }//GEN-LAST:event_editButtonActionPerformed
 
-    private void jLabel13MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel13MouseClicked
+    private void screenIconMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_screenIconMouseClicked
         // TODO add your handling code here:
         try {
             Rectangle screenRect = new Rectangle(Toolkit.getDefaultToolkit().getScreenSize());
             BufferedImage capture = new Robot().createScreenCapture(screenRect);
             ImageIcon icon = new ImageIcon(capture);
-            ImageIO.write(capture, "png", new File("C:\\Users\\Desktop\\PitchTalkScreenshot.png"));
-            JOptionPane.showMessageDialog(this, "SCREENSHOT SAVED AT C:\\Desktop\\PitchTalkScreenshot.png", "CAPTURED" ,JOptionPane.INFORMATION_MESSAGE);
+            ImageIO.write(capture, "png", new File("C:\\Users\\Kenny\\Pictures\\PitchTalkScreenshot.png"));
+            JOptionPane.showMessageDialog(this, "SCREENSHOT SAVED AT C:\\Users\\Kenny\\Pictures", "CAPTURED" ,JOptionPane.INFORMATION_MESSAGE);
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e);
         }
-    }//GEN-LAST:event_jLabel13MouseClicked
+    }//GEN-LAST:event_screenIconMouseClicked
 
     private void messageKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_messageKeyPressed
         // TODO add your handling code here:
@@ -544,6 +812,183 @@ public class MainScreen extends javax.swing.JFrame implements WritableGUI{
         message.requestFocus();
         }
     }//GEN-LAST:event_messageKeyPressed
+
+    private void HoverBarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_HoverBarActionPerformed
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_HoverBarActionPerformed
+
+    private void screenIconMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_screenIconMouseMoved
+        // TODO add your handling code here:
+        HoverBar.setText("Take screenshot of message");
+    }//GEN-LAST:event_screenIconMouseMoved
+
+    private void screenIconMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_screenIconMouseExited
+        // TODO add your handling code here:
+        HoverBar.setText("");
+        ImageIcon ID = new ImageIcon(getClass().getResource("/appPackages/SCREENSHOT.png"));
+        screenIcon.setIcon(ID);
+    }//GEN-LAST:event_screenIconMouseExited
+
+    private void sendIconMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_sendIconMouseMoved
+        // TODO add your handling code here:
+        HoverBar.setText("Send File");
+    }//GEN-LAST:event_sendIconMouseMoved
+
+    private void chatRoomIconMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_chatRoomIconMouseMoved
+        // TODO add your handling code here:
+        HoverBar.setText("Join Chatroom");
+    }//GEN-LAST:event_chatRoomIconMouseMoved
+
+    private void closeShutIconMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_closeShutIconMouseMoved
+        // TODO add your handling code here:
+        HoverBar.setText("Closes app and shuts down PC");
+    }//GEN-LAST:event_closeShutIconMouseMoved
+
+    private void sendIconMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_sendIconMouseExited
+        // TODO add your handling code here:
+        HoverBar.setText("");
+        ImageIcon ID = new ImageIcon(getClass().getResource("/appPackages/mail-flat.png"));
+        sendIcon.setIcon(ID);
+    }//GEN-LAST:event_sendIconMouseExited
+
+    private void chatRoomIconMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_chatRoomIconMouseExited
+        // TODO add your handling code here:
+        HoverBar.setText("");
+        ImageIcon ID = new ImageIcon(getClass().getResource("/appPackages/chat.png"));
+        chatRoomIcon.setIcon(ID);
+    }//GEN-LAST:event_chatRoomIconMouseExited
+
+    private void closeShutIconMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_closeShutIconMouseExited
+        // TODO add your handling code here:
+        HoverBar.setText("");
+        ImageIcon ID = new ImageIcon(getClass().getResource("/appPackages/Sign-out_flat-circle-white-on-red_512x512.png"));
+        closeShutIcon.setIcon(ID);
+    }//GEN-LAST:event_closeShutIconMouseExited
+
+    private void ipTextFieldMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ipTextFieldMouseMoved
+        // TODO add your handling code here:
+        HoverBar.setText("Enter Receipient's IP Address");
+    }//GEN-LAST:event_ipTextFieldMouseMoved
+
+    private void ipTextFieldMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ipTextFieldMouseExited
+        // TODO add your handling code here:
+        HoverBar.setText("");
+    }//GEN-LAST:event_ipTextFieldMouseExited
+
+    private void targetPortMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_targetPortMouseMoved
+        // TODO add your handling code here:
+        HoverBar.setText("Enter Receipient's port number");
+    }//GEN-LAST:event_targetPortMouseMoved
+
+    private void targetPortMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_targetPortMouseExited
+        // TODO add your handling code here:
+        HoverBar.setText("");
+    }//GEN-LAST:event_targetPortMouseExited
+
+    private void receivePortMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_receivePortMouseMoved
+        // TODO add your handling code here:
+        HoverBar.setText("Enter your port number");
+    }//GEN-LAST:event_receivePortMouseMoved
+
+    private void receivePortMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_receivePortMouseExited
+        // TODO add your handling code here:
+        HoverBar.setText("");
+    }//GEN-LAST:event_receivePortMouseExited
+
+    private void messageMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_messageMouseMoved
+        // TODO add your handling code here:
+        HoverBar.setText("Enter message here then press enter to send");
+    }//GEN-LAST:event_messageMouseMoved
+
+    private void messageMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_messageMouseExited
+        // TODO add your handling code here:
+        HoverBar.setText("");
+    }//GEN-LAST:event_messageMouseExited
+
+    private void screenIconMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_screenIconMouseEntered
+        // TODO add your handling code here:
+        ImageIcon IC = new ImageIcon(getClass().getResource("/Images/screen.png"));
+        screenIcon.setIcon(IC);
+    }//GEN-LAST:event_screenIconMouseEntered
+
+    private void sendIconMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_sendIconMouseEntered
+        // TODO add your handling code here:
+        ImageIcon ID = new ImageIcon(getClass().getResource("/Images/mail-icon.png"));
+        sendIcon.setIcon(ID);
+    }//GEN-LAST:event_sendIconMouseEntered
+
+    private void chatRoomIconMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_chatRoomIconMouseEntered
+        // TODO add your handling code here:
+        ImageIcon ID = new ImageIcon(getClass().getResource("/Images/chat2.png"));
+        chatRoomIcon.setIcon(ID);
+    }//GEN-LAST:event_chatRoomIconMouseEntered
+
+    private void closeShutIconMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_closeShutIconMouseEntered
+        // TODO add your handling code here:
+        ImageIcon ID = new ImageIcon(getClass().getResource("/Images/Sign-out.png"));
+        closeShutIcon.setIcon(ID);
+    }//GEN-LAST:event_closeShutIconMouseEntered
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+//        int browse = fileChooser.showOpenDialog(this);
+//        if(browse == fileChooser.APPROVE_OPTION){
+//            file = fileChooser.getSelectedFile();
+//            txtFileURL.setText(file.getAbsolutePath());
+//        }
+        AttachmentForm form = new AttachmentForm();
+        form.show();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void messageCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_messageCaretUpdate
+        // TODO add your handling code here:
+        if (message.getText().isEmpty()){
+            sendButton.setEnabled(false);
+        }else{
+            sendButton.setEnabled(true);
+        }
+    }//GEN-LAST:event_messageCaretUpdate
+
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        // TODO add your handling code here:
+        listener = new MessageListener(this,Integer.parseInt(receivePort.getText()));
+        listener.start();
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
+
+    private void hideMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hideMenuActionPerformed
+        // TODO add your handling code here:
+           this.setSize(550, 647);
+           unHide.setVisible(true);
+           hideMenu.setVisible(false);
+       
+    }//GEN-LAST:event_hideMenuActionPerformed
+
+    private void jLabel4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel4MouseClicked
+        // TODO add your handling code here:
+        dispose();
+//        new HomeBrowse().show();
+        new Home().show();
+    }//GEN-LAST:event_jLabel4MouseClicked
+
+    private void unHideActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_unHideActionPerformed
+        // TODO add your handling code here:
+        this.setSize(811, 647);
+           unHide.setVisible(false);
+           hideMenu.setVisible(true);
+    }//GEN-LAST:event_unHideActionPerformed
+
+    private void jMenuItem11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem11ActionPerformed
+        // TODO add your handling code here:
+        dispose();
+        new HomeBrowse().show();
+    }//GEN-LAST:event_jMenuItem11ActionPerformed
+
+    private void jMenuItem12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem12ActionPerformed
+        // TODO add your handling code here:
+        new Message().show();
+        dispose();
+    }//GEN-LAST:event_jMenuItem12ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -556,7 +1001,7 @@ public class MainScreen extends javax.swing.JFrame implements WritableGUI{
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
+                if ("Windows".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }
@@ -581,24 +1026,41 @@ public class MainScreen extends javax.swing.JFrame implements WritableGUI{
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextField HoverBar;
     private javax.swing.JButton cancelButton;
     private javax.swing.JTextArea chat;
+    private javax.swing.JLabel chatRoomIcon;
+    private javax.swing.JLabel closeShutIcon;
     private javax.swing.JTextField eMail;
     private javax.swing.JButton editButton;
+    private javax.swing.JMenuItem hideMenu;
     private javax.swing.JTextField ipTextField;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
-    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
+    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenu jMenu3;
+    private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem11;
+    private javax.swing.JMenuItem jMenuItem12;
+    private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem jMenuItem3;
+    private javax.swing.JMenuItem jMenuItem4;
+    private javax.swing.JMenuItem jMenuItem5;
+    private javax.swing.JMenuItem jMenuItem6;
+    private javax.swing.JMenuItem jMenuItem7;
+    private javax.swing.JMenuItem jMenuItem8;
+    private javax.swing.JMenuItem jMenuItem9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel4;
@@ -607,14 +1069,17 @@ public class MainScreen extends javax.swing.JFrame implements WritableGUI{
     private javax.swing.JTextField message;
     private javax.swing.JTextField pNum;
     private javax.swing.JTextField receivePort;
+    private javax.swing.JLabel screenIcon;
     private javax.swing.JButton sendButton;
+    private javax.swing.JLabel sendIcon;
     private javax.swing.JTextField targetPort;
     private javax.swing.JTextField timeZone;
+    private javax.swing.JMenuItem unHide;
     private javax.swing.JTextField userName;
     // End of variables declaration//GEN-END:variables
 
     @Override
     public void write(String s) {
-        chat.append(s +System.lineSeparator());
+        chat.append(new MainScreen.NetInfo().say() + " > " + s +System.lineSeparator());
     }
 }

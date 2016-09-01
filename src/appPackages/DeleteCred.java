@@ -1,7 +1,10 @@
 package appPackages;
 
 import com.sun.glass.events.KeyEvent;
-import appPackages.Home;
+import java.awt.Color;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -11,48 +14,53 @@ import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import pitchtalk1.pkg1.DBConnection;
 
 
 public class DeleteCred extends javax.swing.JFrame {
-DBConnection con = new DBConnection();
+DBConnection cond = new DBConnection();
+Connection conn=null;
+  ResultSet rs = null;
+  PreparedStatement pst=null;
     /**
      * Creates new form DeleteCred
+     * @throws java.sql.SQLException
      */
     public DeleteCred() throws SQLException {
         initComponents();
         this.setLocationRelativeTo(null);
         this.setTitle("Delete Credentials");
         uploadButton.setVisible(false);
-        selfieButton.setVisible(false);
-        tfName2.setText(Home.tfUser.getText());
+        nName.setText(Home.tfUser.getText());
         String url = "jdbc:mysql://localhost/users";
         String user = "root";
         String password = "";       
         try {
-            Connection conn = DriverManager.getConnection(url, user, password); 
-            
+            Connection conn = DriverManager.getConnection(url, user, password);             
         Statement myStmt = conn.createStatement();
-            String sql1 = "select * from login where Nickname = '" + tfName2.getText()+"'" ;
-                con.pst = conn.prepareStatement(sql1);
-                con.rs=con.pst.executeQuery();
-                if(con.rs.next()){
-                    String add1 =con.rs.getString("Position");
-                    tfName3.setText(add1);
-                    String add2 =con.rs.getString("Gender");
-                    jTextField2.setText(add2);
-                    String add3 =con.rs.getString("StudentNumber");
-                    jTextField3.setText(add3);
-                                        
-                }
-                
+            String sql1 = "select * from login where Nickname = '" + nName.getText()+"'" ;
+                cond.pst = conn.prepareStatement(sql1);
+                cond.rs=cond.pst.executeQuery();
+                if(cond.rs.next()){
+                    String add1 =cond.rs.getString("Position");
+                    position.setText(add1);
+                    String add2 =cond.rs.getString("Gender");
+                    gender.setText(add2);
+                    String add3 =cond.rs.getString("StudentNumber");
+                    stuNumber.setText(add3); 
+                    String add4 =cond.rs.getString("FirstName");
+                    fName.setText(add4); 
+                    String add5 =cond.rs.getString("LastName");
+                    lName.setText(add5); 
+                    String add6 =cond.rs.getString("PhoneNumber");
+                    pNumber.setText(add6);
+                    
+                }                
         } catch (SQLException ex) {
             Logger.getLogger(DeleteCred.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-        
-                
+        }               
     }
 
     /**
@@ -66,26 +74,36 @@ DBConnection con = new DBConnection();
 
         searchPanel = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        tfName2 = new javax.swing.JTextField();
+        nName = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
-        jToggleButton2 = new javax.swing.JToggleButton();
-        tfName3 = new javax.swing.JTextField();
+        gender = new javax.swing.JTextField();
+        position = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
-        jTextField3 = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
-        jToggleButton1 = new javax.swing.JToggleButton();
+        stuNumber = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
+        fName = new javax.swing.JTextField();
+        jLabel10 = new javax.swing.JLabel();
+        lName = new javax.swing.JTextField();
+        jLabel11 = new javax.swing.JLabel();
+        pNumber = new javax.swing.JTextField();
+        jLabel12 = new javax.swing.JLabel();
+        jLabel13 = new javax.swing.JLabel();
+        jLabel14 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
-        uploadButton = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        selfieButton = new javax.swing.JButton();
         image = new javax.swing.JLabel();
+        path = new javax.swing.JLabel();
+        jPanel2 = new javax.swing.JPanel();
+        jButton1 = new javax.swing.JLabel();
+        uploadButton = new javax.swing.JLabel();
+        jButton2 = new javax.swing.JLabel();
+        editBtn = new javax.swing.JLabel();
+        backBtn = new javax.swing.JLabel();
+        HoverBar = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -94,53 +112,40 @@ DBConnection con = new DBConnection();
             }
         });
 
-        jLabel1.setText("Nickname:");
+        searchPanel.setFont(new java.awt.Font("Berlin Sans FB Demi", 0, 12)); // NOI18N
 
-        tfName2.setEditable(false);
-        tfName2.addActionListener(new java.awt.event.ActionListener() {
+        jLabel1.setFont(new java.awt.Font("Berlin Sans FB", 0, 12)); // NOI18N
+        jLabel1.setText("Nickname");
+
+        nName.setEditable(false);
+        nName.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tfName2ActionPerformed(evt);
+                nNameActionPerformed(evt);
             }
         });
 
+        jLabel3.setFont(new java.awt.Font("Berlin Sans FB", 0, 12)); // NOI18N
         jLabel3.setText("Position:");
 
+        jLabel6.setFont(new java.awt.Font("Berlin Sans FB", 0, 12)); // NOI18N
         jLabel6.setText("Gender:");
 
-        jTextField2.setEditable(false);
+        gender.setEditable(false);
 
-        jToggleButton2.setText("Delete");
-        jToggleButton2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jToggleButton2.addActionListener(new java.awt.event.ActionListener() {
+        position.setEditable(false);
+        position.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jToggleButton2ActionPerformed(evt);
+                positionActionPerformed(evt);
             }
         });
 
-        tfName3.setEditable(false);
-        tfName3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tfName3ActionPerformed(evt);
-            }
-        });
-
+        jLabel4.setFont(new java.awt.Font("Berlin Sans FB", 0, 12)); // NOI18N
         jLabel4.setText("Student Number:");
 
-        jTextField3.setEditable(false);
-
-        jButton1.setText("Cancel");
-        jButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
-
-        jToggleButton1.setText("Edit");
-        jToggleButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jToggleButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jToggleButton1ActionPerformed(evt);
+        stuNumber.setEditable(false);
+        stuNumber.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                stuNumberKeyPressed(evt);
             }
         });
 
@@ -153,67 +158,172 @@ DBConnection con = new DBConnection();
         jLabel5.setToolTipText("Click to save");
         jLabel5.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jLabel5.setEnabled(false);
+        jLabel5.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel5MouseClicked(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                jLabel5MouseExited(evt);
+            }
+        });
+        jLabel5.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jLabel5KeyPressed(evt);
+            }
+        });
 
         jLabel7.setText(">/");
         jLabel7.setToolTipText("Click to save");
         jLabel7.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jLabel7.setEnabled(false);
+        jLabel7.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel7MouseClicked(evt);
+            }
+        });
 
         jLabel8.setText(">/");
         jLabel8.setToolTipText("Click to save");
         jLabel8.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jLabel8.setEnabled(false);
+        jLabel8.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel8MouseClicked(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                jLabel8MouseExited(evt);
+            }
+        });
 
-        jLabel9.setText("Save All");
-        jLabel9.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jLabel9.setFont(new java.awt.Font("Berlin Sans FB", 0, 12)); // NOI18N
+        jLabel9.setText("Frist Name");
+
+        fName.setEditable(false);
+        fName.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                fNameActionPerformed(evt);
+            }
+        });
+        fName.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                fNameKeyPressed(evt);
+            }
+        });
+
+        jLabel10.setFont(new java.awt.Font("Berlin Sans FB", 0, 12)); // NOI18N
+        jLabel10.setText("Last name:");
+
+        lName.setEditable(false);
+        lName.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                lNameActionPerformed(evt);
+            }
+        });
+        lName.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                lNameKeyPressed(evt);
+            }
+        });
+
+        jLabel11.setFont(new java.awt.Font("Berlin Sans FB", 0, 12)); // NOI18N
+        jLabel11.setText("Phone Number:");
+
+        pNumber.setEditable(false);
+        pNumber.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                pNumberKeyPressed(evt);
+            }
+        });
+
+        jLabel12.setText(">/");
+        jLabel12.setToolTipText("Click to save");
+        jLabel12.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jLabel12.setEnabled(false);
+        jLabel12.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel12MouseClicked(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                jLabel12MouseExited(evt);
+            }
+        });
+
+        jLabel13.setText(">/");
+        jLabel13.setToolTipText("Click to save");
+        jLabel13.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jLabel13.setEnabled(false);
+        jLabel13.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel13MouseClicked(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                jLabel13MouseExited(evt);
+            }
+        });
+
+        jLabel14.setText(">/");
+        jLabel14.setToolTipText("Click to save");
+        jLabel14.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jLabel14.setEnabled(false);
+        jLabel14.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel14MouseClicked(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                jLabel14MouseExited(evt);
+            }
+        });
 
         javax.swing.GroupLayout searchPanelLayout = new javax.swing.GroupLayout(searchPanel);
         searchPanel.setLayout(searchPanelLayout);
         searchPanelLayout.setHorizontalGroup(
             searchPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(searchPanelLayout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(searchPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(searchPanelLayout.createSequentialGroup()
-                        .addGroup(searchPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                            .addGroup(searchPanelLayout.createSequentialGroup()
-                                .addComponent(jButton1)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, searchPanelLayout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
-                                .addComponent(jLabel9)
-                                .addGap(88, 88, 88)))
-                        .addGroup(searchPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel5)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel7)
-                            .addComponent(jLabel8)))
-                    .addGroup(searchPanelLayout.createSequentialGroup()
-                        .addGroup(searchPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(searchPanelLayout.createSequentialGroup()
-                                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addGroup(searchPanelLayout.createSequentialGroup()
-                                .addGroup(searchPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel3)
-                                    .addComponent(jLabel6)
-                                    .addComponent(jLabel4))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                        .addGroup(searchPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(searchPanelLayout.createSequentialGroup()
-                                .addGap(0, 16, Short.MAX_VALUE)
-                                .addComponent(jToggleButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(jToggleButton2)
-                                .addContainerGap())
+                        .addComponent(jLabel1)
+                        .addGap(77, 77, 77)
+                        .addComponent(nName, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel2)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, searchPanelLayout.createSequentialGroup()
+                        .addComponent(jLabel9)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(fName, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel12))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, searchPanelLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGroup(searchPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(searchPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(searchPanelLayout.createSequentialGroup()
+                                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(stuNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(gender, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(searchPanelLayout.createSequentialGroup()
+                                    .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(pNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGroup(searchPanelLayout.createSequentialGroup()
                                 .addGroup(searchPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(tfName3, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(searchPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                        .addComponent(tfName2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 164, Short.MAX_VALUE)
-                                        .addComponent(jTextField2, javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jTextField3, javax.swing.GroupLayout.Alignment.LEADING)))
-                                .addGap(0, 0, Short.MAX_VALUE))))))
+                                    .addComponent(jLabel6)
+                                    .addComponent(jLabel3))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(position, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(searchPanelLayout.createSequentialGroup()
+                                .addComponent(jLabel10)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(lName, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(18, 18, 18)
+                        .addGroup(searchPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel5)
+                            .addComponent(jLabel7)
+                            .addComponent(jLabel8)
+                            .addComponent(jLabel13)
+                            .addComponent(jLabel14))))
+                .addContainerGap())
         );
         searchPanelLayout.setVerticalGroup(
             searchPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -221,76 +331,190 @@ DBConnection con = new DBConnection();
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(searchPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(tfName2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(nName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2))
                 .addGap(18, 18, 18)
                 .addGroup(searchPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(fName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel12))
+                .addGap(18, 18, 18)
+                .addGroup(searchPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel13))
+                .addGap(18, 18, 18)
+                .addGroup(searchPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(tfName3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(position, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel5))
                 .addGap(18, 18, 18)
                 .addGroup(searchPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(gender, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel7))
                 .addGap(18, 18, 18)
                 .addGroup(searchPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(stuNumber, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel8))
-                .addGap(29, 29, 29)
-                .addGroup(searchPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jToggleButton2)
-                    .addComponent(jButton1)
-                    .addComponent(jToggleButton1))
-                .addGap(10, 10, 10)
-                .addComponent(jLabel9)
-                .addContainerGap())
+                .addGap(18, 18, 18)
+                .addGroup(searchPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(searchPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel11)
+                        .addComponent(pNumber, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel14))
+                .addGap(166, 166, 166))
         );
 
-        uploadButton.setText("Upload");
+        image.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe MDL2 Assets", 0, 14))); // NOI18N
 
-        jButton2.setText("Display");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
-            }
-        });
-
-        selfieButton.setText("Take Selfie");
+        path.setText("PATH");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addComponent(image, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(10, 10, 10))
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(uploadButton)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(selfieButton, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(25, Short.MAX_VALUE))
-            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                    .addContainerGap()
-                    .addComponent(image, javax.swing.GroupLayout.DEFAULT_SIZE, 277, Short.MAX_VALUE)
-                    .addContainerGap()))
+                .addGap(123, 123, 123)
+                .addComponent(path)
+                .addContainerGap(138, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap(354, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addContainerGap()
+                .addComponent(image, javax.swing.GroupLayout.DEFAULT_SIZE, 251, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addComponent(path)
+                .addContainerGap())
+        );
+
+        jButton1.setFont(new java.awt.Font("Segoe MDL2 Assets", 0, 36)); // NOI18N
+        jButton1.setText("");
+        jButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jButton1.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseMoved(java.awt.event.MouseEvent evt) {
+                jButton1MouseMoved(evt);
+            }
+        });
+        jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton1MouseClicked(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                jButton1MouseExited(evt);
+            }
+        });
+
+        uploadButton.setFont(new java.awt.Font("Segoe MDL2 Assets", 0, 36)); // NOI18N
+        uploadButton.setText("");
+        uploadButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        uploadButton.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseMoved(java.awt.event.MouseEvent evt) {
+                uploadButtonMouseMoved(evt);
+            }
+        });
+        uploadButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                uploadButtonMouseClicked(evt);
+            }
+        });
+
+        jButton2.setFont(new java.awt.Font("Segoe MDL2 Assets", 0, 36)); // NOI18N
+        jButton2.setText("");
+        jButton2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jButton2.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseMoved(java.awt.event.MouseEvent evt) {
+                jButton2MouseMoved(evt);
+            }
+        });
+        jButton2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton2MouseClicked(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                jButton2MouseExited(evt);
+            }
+        });
+
+        editBtn.setFont(new java.awt.Font("Segoe MDL2 Assets", 0, 36)); // NOI18N
+        editBtn.setText("");
+        editBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        editBtn.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseMoved(java.awt.event.MouseEvent evt) {
+                editBtnMouseMoved(evt);
+            }
+        });
+        editBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                editBtnMouseClicked(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                editBtnMouseExited(evt);
+            }
+        });
+
+        backBtn.setFont(new java.awt.Font("Segoe MDL2 Assets", 0, 36)); // NOI18N
+        backBtn.setText("");
+        backBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        backBtn.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseMoved(java.awt.event.MouseEvent evt) {
+                backBtnMouseMoved(evt);
+            }
+        });
+        backBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                backBtnMouseClicked(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                backBtnMouseExited(evt);
+            }
+        });
+
+        HoverBar.setFont(new java.awt.Font("Berlin Sans FB", 0, 14)); // NOI18N
+        HoverBar.setText("Help");
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(uploadButton)
+                .addGap(57, 57, 57)
+                .addComponent(backBtn)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 105, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jButton2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 105, Short.MAX_VALUE)
+                        .addComponent(jButton1)
+                        .addGap(119, 119, 119)
+                        .addComponent(editBtn)
+                        .addGap(62, 62, 62))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(30, 30, 30)
+                        .addComponent(HoverBar)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(uploadButton)
-                    .addComponent(jButton2)
-                    .addComponent(selfieButton))
-                .addGap(4, 4, 4))
-            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                    .addContainerGap()
-                    .addComponent(image, javax.swing.GroupLayout.DEFAULT_SIZE, 332, Short.MAX_VALUE)
-                    .addGap(38, 38, 38)))
+                    .addComponent(backBtn)
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jButton1)
+                        .addComponent(editBtn)
+                        .addComponent(jButton2)))
+                .addGap(18, 18, 18)
+                .addComponent(HoverBar)
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -298,41 +522,135 @@ DBConnection con = new DBConnection();
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(searchPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(29, 29, 29)
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(20, 20, 20))
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(13, 13, 13)
+                .addComponent(searchPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(10, 10, 10)
+                        .addComponent(searchPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 290, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(38, 38, 38)
-                .addComponent(searchPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void tfName2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfName2ActionPerformed
+    private void nNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nNameActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_tfName2ActionPerformed
+    }//GEN-LAST:event_nNameActionPerformed
 
-    private void jToggleButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton2ActionPerformed
+    private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
         // TODO add your handling code here:
-        int i = JOptionPane.showConfirmDialog(this, "ARE YOU SURE YOU WANT TO DELETE?", "Confirm", JOptionPane.YES_NO_OPTION);
+        jLabel8.setVisible(false);
+        if(!position.getText().equals("Student")){
+            stuNumber.setEditable(false);
+//            jLabel4.setVisible(false);
+            
+        }
+        else{
+//                  stuNumber.setVisible(true);
+//      jLabel4.setVisible(true);
+      jLabel8.setVisible(true);
+            
+        }
+    }//GEN-LAST:event_formWindowActivated
+
+    private void uploadButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_uploadButtonMouseClicked
+        // TODO add your handling code here:
+        JFileChooser chooser = new JFileChooser();
+        chooser.showOpenDialog(null);
+        File f = chooser.getSelectedFile();
+        filename = f.getAbsolutePath();
+        path.setText(filename);
+        try {
+            File image = new File(filename);
+            FileInputStream fis = new FileInputStream(image);
+            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            byte[] buf = new byte [1024];
+            for(int readNum; (readNum = fis.read(buf))!=-1 ;){
+                bos.write(buf,0,readNum);
+            }
+        person_image=bos.toByteArray();    
+        } catch (Exception e) {
+        }
+    }//GEN-LAST:event_uploadButtonMouseClicked
+
+    private void jButton2MouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseMoved
+        // TODO add your handling code here:
+        HoverBar.setText("View Uploaded Picture");
+    }//GEN-LAST:event_jButton2MouseMoved
+
+    private void jButton2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseClicked
+        // TODO add your handling code here:
+        this.setSize(950, 740);
+        try {
+            if (nName.getText().isEmpty()){
+                getToolkit().beep();
+                JOptionPane.showMessageDialog(this, "NO PROFILE!", "WARNING!", JOptionPane.WARNING_MESSAGE);
+            }else{
+                try {
+                    String sql ="select image from login where Nickname = '" + appPackages.DeleteCred.nName.getText()+"'" ;
+                    cond.pst=cond.mycon.prepareStatement(sql);
+                    cond.rs=cond.pst.executeQuery();
+                    if(cond.rs.next()){
+                        byte[]imagedata = cond.rs.getBytes("image");
+                        format = new ImageIcon(imagedata);
+                        image.setIcon(format);
+
+                    }
+                } catch (Exception e) {
+                    {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+//        //try {
+//            String sql ="select image from login where Nickname = '" + appPackages.DeleteCred.nName.getText()+"'" ;
+//            con.pst=con.mycon.prepareStatement(sql);
+//            con.rs=con.pst.executeQuery();
+//            if(con.rs.next()){
+//                byte[]imagedata = con.rs.getBytes("image");
+//                format = new ImageIcon(imagedata);
+//                image.setIcon(format);
+//
+//            }
+//        } catch (Exception e) {
+//            {
+//                e.printStackTrace();
+//            }
+//        }
+    }//GEN-LAST:event_jButton2MouseClicked
+
+    private void jButton2MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseExited
+        // TODO add your handling code here:
+        HoverBar.setText("");
+    }//GEN-LAST:event_jButton2MouseExited
+
+    private void jButton1MouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseMoved
+        // TODO add your handling code here:
+        HoverBar.setText("DELETE || Delete your credentials");
+    }//GEN-LAST:event_jButton1MouseMoved
+
+    private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
+        // TODO add your handling code here:
+         int i = JOptionPane.showConfirmDialog(this, "ARE YOU SURE YOU WANT TO DELETE?", "Confirm", JOptionPane.YES_NO_OPTION);
         if(i == JOptionPane.YES_OPTION){
             String sql2 = "Delete from login where Nickname =? ";
             try{
-                con.pst = con.mycon.prepareStatement(sql2);
-                con.pst.setString(1, tfName2.getText());
-                con.pst.execute();
-                con.pst.close();
+                cond.pst = cond.mycon.prepareStatement(sql2);
+                cond.pst.setString(1, nName.getText());
+                cond.pst.execute();
+                cond.pst.close();
                 JOptionPane.showMessageDialog(null, "DELETED");
                 dispose();
                 new HomeBrowse().show();
@@ -342,73 +660,306 @@ DBConnection con = new DBConnection();
             }
             //DELETE FROM DATA BASE CODE HERE
         }else{
-            dispose();
-            new Home().show();
+//            dispose();
+//            new Home().show();
             
         }
-    }//GEN-LAST:event_jToggleButton2ActionPerformed
+    }//GEN-LAST:event_jButton1MouseClicked
 
-    private void tfName3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfName3ActionPerformed
+    private void jButton1MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseExited
         // TODO add your handling code here:
-    }//GEN-LAST:event_tfName3ActionPerformed
+        HoverBar.setText("");
+    }//GEN-LAST:event_jButton1MouseExited
 
-    private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
+    private void fNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fNameActionPerformed
         // TODO add your handling code here:
-        jLabel8.setVisible(false);
-        if(!tfName3.getText().equals("Student")){
-            jTextField3.setVisible(false);
-            jLabel4.setVisible(false);
-            
+    }//GEN-LAST:event_fNameActionPerformed
+
+    private void lNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lNameActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_lNameActionPerformed
+
+    private void editBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_editBtnMouseClicked
+        // TODO add your handling code here:
+        if (position.getText().trim().equals("Senior Lecturer")) {
+            stuNumber.setEnabled(false);
         }
-        else{
-                  jTextField3.setVisible(true);
-      jLabel4.setVisible(true);
-      jLabel8.setVisible(true);
-            
+        if (position.getText().trim().equals("Teaching Assistant")) {
+            stuNumber.setEnabled(false);
         }
-    }//GEN-LAST:event_formWindowActivated
-
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-        new Home().show();
-        dispose();
-    }//GEN-LAST:event_jButton1ActionPerformed
-
-    private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton1ActionPerformed
-        // TODO add your handling code here:
-        jTextField3.setEditable(true);
-        tfName2.requestFocus();
-        tfName2.setEditable(true);
-        tfName3.setEditable(true);
-        jTextField2.setEditable(true);
+        pNumber.setEditable(true);
+        lName.setEditable(true);
+        fName.setEditable(true);
+        stuNumber.setEditable(true);
+//        nName.setEditable(true);
+//        position.setEditable(true);
+//        gender.setEditable(true);
         jLabel2.setEnabled(true);
+        jLabel12.setEnabled(true);
+        jLabel14.setEnabled(true);
+        jLabel13.setEnabled(true);
         jLabel5.setEnabled(true);
         jLabel7.setEnabled(true);
         jLabel8.setEnabled(true);
         uploadButton.setVisible(true);
-        selfieButton.setVisible(true);
-        
-        //UPDATE DATABASE CODE HERE
-    }//GEN-LAST:event_jToggleButton1ActionPerformed
+        pNumber.setEnabled(true);
+        fName.requestFocus();
+    }//GEN-LAST:event_editBtnMouseClicked
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void backBtnMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_backBtnMouseMoved
+        // TODO add your handling code here:
+        HoverBar.setText("Cancel || Go back to dashboard");
+        HoverBar.setForeground(Color.BLACK);
+    }//GEN-LAST:event_backBtnMouseMoved
+
+    private void backBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_backBtnMouseClicked
+        // TODO add your handling code here:
+        new Home().show();
+        dispose();
+    }//GEN-LAST:event_backBtnMouseClicked
+
+    private void backBtnMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_backBtnMouseExited
+        // TODO add your handling code here:
+        HoverBar.setText("");
+    }//GEN-LAST:event_backBtnMouseExited
+
+    private void editBtnMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_editBtnMouseMoved
+        // TODO add your handling code here:
+        HoverBar.setText("Edit credentials");
+        HoverBar.setForeground(Color.BLACK);
+    }//GEN-LAST:event_editBtnMouseMoved
+
+    private void editBtnMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_editBtnMouseExited
+        // TODO add your handling code here:
+        HoverBar.setText("");
+    }//GEN-LAST:event_editBtnMouseExited
+
+    private void uploadButtonMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_uploadButtonMouseMoved
+        // TODO add your handling code here:
+        HoverBar.setText("Upload");
+        HoverBar.setForeground(Color.BLACK);
+    }//GEN-LAST:event_uploadButtonMouseMoved
+
+    private void positionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_positionActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_positionActionPerformed
+
+    private void jLabel12MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel12MouseClicked
         // TODO add your handling code here:
         try {
-            String sql ="select image from login where Nickname = '" + appPackages.DeleteCred.tfName2.getText()+"'" ;
-            con.pst=con.mycon.prepareStatement(sql);
-            con.rs=con.pst.executeQuery();
-            if(con.rs.next()){
-                byte[]imagedata = con.rs.getBytes("image");
-                format = new ImageIcon(imagedata);
-                image.setIcon(format);
-
-            }
+            String value1=nName.getText();
+            String value2=fName.getText();
+            String sql="Update login set Nickname ='"+value1+"' , FirstName ='"+value2+"' where Nickname ='"+value1+"'" ;
+            pst=cond.mycon.prepareStatement(sql);
+            pst.execute();
+            HoverBar.setText("UPDATED!");
+            HoverBar.setForeground(Color.green);
+            fName.setEditable(false);
+            lName.requestFocus();
+            System.out.print("UPDATED");
         } catch (Exception e) {
-            {
-                e.printStackTrace();
-            }
+            System.out.print(e);
         }
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_jLabel12MouseClicked
+
+    private void jLabel13MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel13MouseClicked
+        // TODO add your handling code here:
+        try {
+            String value1=nName.getText();
+            String value2=lName.getText();
+            String sql="Update login set Nickname ='"+value1+"' , LastName ='"+value2+"' where Nickname ='"+value1+"'" ;
+            pst=cond.mycon.prepareStatement(sql);
+            pst.execute();
+            HoverBar.setText("UPDATED!");
+            HoverBar.setForeground(Color.green);
+            lName.setEditable(false);
+            stuNumber.requestFocus();
+            System.out.print("UPDATED");
+        } catch (Exception e) {
+            System.out.print(e);
+        }
+    }//GEN-LAST:event_jLabel13MouseClicked
+
+    private void jLabel7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel7MouseClicked
+        // TODO add your handling code here:
+        try {
+            String value1=nName.getText();
+            String value2=lName.getText();
+            String sql="Update login set Nickname ='"+value1+"' , LastName ='"+value2+"' where Nickname ='"+value1+"'" ;
+            pst=cond.mycon.prepareStatement(sql);
+            pst.execute();
+            HoverBar.setText("UPDATED!");
+            HoverBar.setForeground(Color.green);
+            lName.setEditable(false);
+            position.requestFocus();
+            System.out.print("UPDATED");
+        } catch (Exception e) {
+            System.out.print(e);
+        }
+    }//GEN-LAST:event_jLabel7MouseClicked
+
+    private void jLabel5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel5MouseClicked
+        // TODO add your handling code here:
+        try {
+            String value1=nName.getText();
+            String value2=gender.getText();
+            String sql="Update login set Nickname ='"+value1+"' , Gender ='"+value2+"' where Nickname ='"+value1+"'" ;
+            pst=cond.mycon.prepareStatement(sql);
+            pst.execute();
+            HoverBar.setText("UPDATED!");
+            HoverBar.setForeground(Color.green);
+            gender.setEditable(false);
+            stuNumber.requestFocus();
+            System.out.print("UPDATED");
+        } catch (Exception e) {
+            System.out.print(e);
+        }
+    }//GEN-LAST:event_jLabel5MouseClicked
+
+    private void jLabel8MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel8MouseClicked
+        // TODO add your handling code here:
+        
+          try {
+            String value1=nName.getText();
+            String value2=stuNumber.getText();
+            String sql="Update login set Nickname ='"+value1+"' , StudentNumber ='"+value2+"' where Nickname ='"+value1+"'" ;
+            pst=cond.mycon.prepareStatement(sql);
+            pst.execute();
+            HoverBar.setText("UPDATED!");
+            HoverBar.setForeground(Color.green);
+            stuNumber.setEditable(false);
+            pNumber.requestFocus();
+            System.out.print("UPDATED");
+        } catch (Exception e) {
+            System.out.print(e);
+        }       
+    }//GEN-LAST:event_jLabel8MouseClicked
+
+    private void jLabel14MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel14MouseClicked
+        // TODO add your handling code here:
+        
+       try {
+            String value1=nName.getText();
+            String value2=pNumber.getText();
+            String sql="Update login set Nickname ='"+value1+"' , PhoneNumber ='"+value2+"' where Nickname ='"+value1+"'" ;
+            pst=cond.mycon.prepareStatement(sql);
+            pst.execute();
+            HoverBar.setText("UPDATED!");
+            HoverBar.setForeground(Color.green);
+            pNumber.setEditable(false);
+            pNumber.setEnabled(false);
+            System.out.print("UPDATED");
+        } catch (Exception e) {
+            System.out.print(e);
+        }          
+    }//GEN-LAST:event_jLabel14MouseClicked
+
+    private void jLabel12MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel12MouseExited
+        // TODO add your handling code here:
+        HoverBar.setText("");
+    }//GEN-LAST:event_jLabel12MouseExited
+
+    private void jLabel13MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel13MouseExited
+        // TODO add your handling code here:
+        HoverBar.setText("");
+    }//GEN-LAST:event_jLabel13MouseExited
+
+    private void jLabel5MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel5MouseExited
+        // TODO add your handling code here:
+        HoverBar.setText("");
+    }//GEN-LAST:event_jLabel5MouseExited
+
+    private void jLabel8MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel8MouseExited
+        // TODO add your handling code here:
+        HoverBar.setText("");
+    }//GEN-LAST:event_jLabel8MouseExited
+
+    private void jLabel14MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel14MouseExited
+        // TODO add your handling code here:
+        HoverBar.setText("");
+    }//GEN-LAST:event_jLabel14MouseExited
+
+    private void fNameKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_fNameKeyPressed
+        // TODO add your handling code here:
+         if (evt.getKeyCode() == KeyEvent.VK_ENTER){
+           try {
+            String value1=nName.getText();
+            String value2=fName.getText();
+            String sql="Update login set Nickname ='"+value1+"' , FirstName ='"+value2+"' where Nickname ='"+value1+"'" ;
+            pst=cond.mycon.prepareStatement(sql);
+            pst.execute();
+            HoverBar.setText("UPDATED!");
+            HoverBar.setForeground(Color.green);
+            fName.setEditable(false);
+            lName.requestFocus();
+            System.out.print("UPDATED");
+        } catch (Exception e) {
+            System.out.print(e);
+        }  
+         }
+    }//GEN-LAST:event_fNameKeyPressed
+
+    private void lNameKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_lNameKeyPressed
+        // TODO add your handling code here:
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER){
+           try {
+            String value1=nName.getText();
+            String value2=lName.getText();
+            String sql="Update login set Nickname ='"+value1+"' , LastName ='"+value2+"' where Nickname ='"+value1+"'" ;
+            pst=cond.mycon.prepareStatement(sql);
+            pst.execute();
+            HoverBar.setText("UPDATED!");
+            HoverBar.setForeground(Color.green);
+            lName.setEditable(false);
+            stuNumber.requestFocus();
+            System.out.print("UPDATED");
+        } catch (Exception e) {
+            System.out.print(e);
+        } 
+         }
+    }//GEN-LAST:event_lNameKeyPressed
+
+    private void jLabel5KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jLabel5KeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jLabel5KeyPressed
+
+    private void stuNumberKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_stuNumberKeyPressed
+        // TODO add your handling code here:
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER){
+        try {
+            String value1=nName.getText();
+            String value2=stuNumber.getText();
+            String sql="Update login set Nickname ='"+value1+"' , StudentNumber ='"+value2+"' where Nickname ='"+value1+"'" ;
+            pst=cond.mycon.prepareStatement(sql);
+            pst.execute();
+            HoverBar.setText("UPDATED!");
+            HoverBar.setForeground(Color.green);
+            stuNumber.setEditable(false);
+            pNumber.requestFocus();
+            System.out.print("UPDATED");
+        } catch (Exception e) {
+            System.out.print(e);
+        }       }
+    }//GEN-LAST:event_stuNumberKeyPressed
+
+    private void pNumberKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_pNumberKeyPressed
+        // TODO add your handling code here:
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER){
+        try {
+            String value1=nName.getText();
+            String value2=pNumber.getText();
+            String sql="Update login set Nickname ='"+value1+"' , PhoneNumber ='"+value2+"' where Nickname ='"+value1+"'" ;
+            pst=cond.mycon.prepareStatement(sql);
+            pst.execute();
+            HoverBar.setText("UPDATED!");
+            HoverBar.setForeground(Color.green);
+            pNumber.setEditable(false);
+            pNumber.setEnabled(false);
+            System.out.print("UPDATED");
+        } catch (Exception e) {
+            System.out.print(e);
+        }   }
+    }//GEN-LAST:event_pNumberKeyPressed
 
     /**
      * @param args the command line arguments
@@ -451,10 +1002,20 @@ DBConnection con = new DBConnection();
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel HoverBar;
+    private javax.swing.JLabel backBtn;
+    private javax.swing.JLabel editBtn;
+    public static javax.swing.JTextField fName;
+    private javax.swing.JTextField gender;
     private javax.swing.JLabel image;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JLabel jButton1;
+    private javax.swing.JLabel jButton2;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -464,16 +1025,18 @@ DBConnection con = new DBConnection();
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JToggleButton jToggleButton1;
-    private javax.swing.JToggleButton jToggleButton2;
+    private javax.swing.JPanel jPanel2;
+    public static javax.swing.JTextField lName;
+    public static javax.swing.JTextField nName;
+    private javax.swing.JTextField pNumber;
+    private javax.swing.JLabel path;
+    private javax.swing.JTextField position;
     private javax.swing.JPanel searchPanel;
-    private javax.swing.JButton selfieButton;
-    public static javax.swing.JTextField tfName2;
-    private javax.swing.JTextField tfName3;
-    private javax.swing.JButton uploadButton;
+    private javax.swing.JTextField stuNumber;
+    private javax.swing.JLabel uploadButton;
     // End of variables declaration//GEN-END:variables
 private ImageIcon format = null;
+byte[] person_image = null;
+String filename = null;
 }
 

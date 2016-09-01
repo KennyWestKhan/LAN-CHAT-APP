@@ -1,4 +1,5 @@
 package appPackages;
+import client.LoginForm;
 import com.sun.glass.events.KeyEvent;
 import java.sql.*;
 import java.awt.Color;
@@ -12,10 +13,7 @@ import java.util.GregorianCalendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import javax.swing.UIManager;
 import pitchtalk1.pkg1.DBConnection;
-import pitchtalk1.pkg1.ipClass;
-//import client.*;
 
 public class Home extends javax.swing.JFrame {
 
@@ -29,16 +27,21 @@ public class Home extends javax.swing.JFrame {
         initComponents();
         this.setTitle("PitchTalk");
         setLocationRelativeTo(null);
-        jButton1.setEnabled(false);
+        this.getContentPane().setBackground(Color.WHITE);
+        this.pack();
+        chat_btn.setEnabled(false);
+        chatRoom_btn.setEnabled(false);
         jMenuItem5.setEnabled(false);
-        jMenuItem4.setEnabled(false);
         jMenuItem3.setEnabled(false);
-        jButton2.setEnabled(false);
         cutMenuItem.setEnabled(false);
-       jButton3.setEnabled(false);
+       sendBtn_.setEnabled(false);
+       noCon.setVisible(false);
+       conActive.setVisible(false);
+       sendBtn_.setVisible(false);
         CurrentDate();
         LANST();
-        this.setSize(450, 315);
+        
+        this.setSize(450, 335);
         jPanel2.hide();
         
     }
@@ -73,14 +76,16 @@ public class Home extends javax.swing.JFrame {
         InetSocketAddress addr = new InetSocketAddress("www.google.com",80);
         try{
             sock.connect(addr,3000);
-            jMenu5.setVisible(true);
-            jMenu5.setText("LAN Connection Available");
-            jMenu5.setBackground(Color.green);
+            conStatus.setVisible(true);
+            conStatus.setText("LAN Connection Available");
+            conActive.setVisible(true);
+            conStatus.setBackground(Color.green);
             
         } catch (Exception e) {
-            jMenu5.setVisible(true);
-            jMenu5.setBackground(Color.red);
-            jMenu5.setText("No LAN Connection");
+            conStatus.setVisible(true);
+            conStatus.setBackground(Color.red);
+            conStatus.setText("No LAN Connection");
+            noCon.setVisible(true);
         }finally{
             try{sock.close();}
             catch(Exception e){}
@@ -97,18 +102,16 @@ public class Home extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel3 = new javax.swing.JPanel();
-        jButton3 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
+        sendBtn_ = new javax.swing.JButton();
+        chat_btn = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         pfPass = new javax.swing.JPasswordField();
         tfUser = new javax.swing.JTextField();
-        jButton5 = new javax.swing.JButton();
+        clearbtn = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        jButton4 = new javax.swing.JToggleButton();
+        logbtn = new javax.swing.JToggleButton();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
@@ -119,20 +122,24 @@ public class Home extends javax.swing.JFrame {
         jTextField3 = new javax.swing.JTextField();
         jButton7 = new javax.swing.JButton();
         jButton8 = new javax.swing.JButton();
+        twitterIco = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
+        chatRoom_btn = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem3 = new javax.swing.JMenuItem();
-        jMenuItem4 = new javax.swing.JMenuItem();
         jMenuItem5 = new javax.swing.JMenuItem();
         jMenuItem6 = new javax.swing.JMenuItem();
-        jMenuItem7 = new javax.swing.JMenuItem();
+        signoutMenu = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenuItem2 = new javax.swing.JMenuItem();
         cutMenuItem = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
         jMenu4 = new javax.swing.JMenu();
-        jMenu5 = new javax.swing.JMenu();
+        conActive = new javax.swing.JMenu();
+        noCon = new javax.swing.JMenu();
+        conStatus = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setFont(new java.awt.Font("DokChampa", 0, 10)); // NOI18N
@@ -147,38 +154,32 @@ public class Home extends javax.swing.JFrame {
             }
         });
 
-        jButton3.setFont(new java.awt.Font("Berlin Sans FB Demi", 0, 14)); // NOI18N
-        jButton3.setText("Send");
-        jButton3.setToolTipText("Send Learning material(Ctrl+S)");
-        jButton3.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        jPanel3.setBackground(new java.awt.Color(255, 255, 255));
+
+        sendBtn_.setBackground(new java.awt.Color(255, 255, 255));
+        sendBtn_.setFont(new java.awt.Font("Segoe MDL2 Assets", 0, 36)); // NOI18N
+        sendBtn_.setToolTipText("Send Learning material(Ctrl+S)");
+        sendBtn_.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        sendBtn_.setLabel("");
+        sendBtn_.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                sendBtn_ActionPerformed(evt);
             }
         });
 
-        jButton2.setFont(new java.awt.Font("Berlin Sans FB Demi", 0, 14)); // NOI18N
-        jButton2.setText("Record");
-        jButton2.setToolTipText("Record Lecture (Ctrl+R)");
-        jButton2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        chat_btn.setBackground(new java.awt.Color(255, 255, 255));
+        chat_btn.setFont(new java.awt.Font("Segoe MDL2 Assets", 0, 24)); // NOI18N
+        chat_btn.setText("");
+        chat_btn.setToolTipText("Communicate via LAN(Ctrl+C)");
+        chat_btn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        chat_btn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                chat_btnActionPerformed(evt);
             }
         });
 
-        jButton1.setFont(new java.awt.Font("Berlin Sans FB Demi", 0, 14)); // NOI18N
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/appPackages/chatbubble-working(1).png"))); // NOI18N
-        jButton1.setText("Chat");
-        jButton1.setToolTipText("Communicate via LAN(Ctrl+C)");
-        jButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
-
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Login"));
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, " ", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe MDL2 Assets", 0, 18))); // NOI18N
         jPanel1.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 jPanel1FocusGained(evt);
@@ -205,18 +206,19 @@ public class Home extends javax.swing.JFrame {
 
         tfUser.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
 
-        jButton5.setFont(new java.awt.Font("Berlin Sans FB", 0, 12)); // NOI18N
-        jButton5.setText("Clear");
-        jButton5.setToolTipText("Delete everything you've typed in the textboxes");
-        jButton5.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jButton5.addActionListener(new java.awt.event.ActionListener() {
+        clearbtn.setFont(new java.awt.Font("Berlin Sans FB", 0, 12)); // NOI18N
+        clearbtn.setText("Clear");
+        clearbtn.setToolTipText("Delete everything you've typed in the textboxes");
+        clearbtn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        clearbtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton5ActionPerformed(evt);
+                clearbtnActionPerformed(evt);
             }
         });
 
         jLabel3.setFont(new java.awt.Font("Berlin Sans FB", 0, 12)); // NOI18N
         jLabel3.setText("Create Credential(?)");
+        jLabel3.setToolTipText("Create a free account");
         jLabel3.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jLabel3.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
@@ -224,16 +226,13 @@ public class Home extends javax.swing.JFrame {
             }
         });
 
-        jLabel4.setForeground(new java.awt.Color(153, 153, 153));
-        jLabel4.setText("Application Version 1.2");
-
-        jButton4.setFont(new java.awt.Font("Berlin Sans FB", 0, 12)); // NOI18N
-        jButton4.setText("Login");
-        jButton4.setToolTipText("");
-        jButton4.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
+        logbtn.setFont(new java.awt.Font("Berlin Sans FB", 0, 12)); // NOI18N
+        logbtn.setToolTipText("");
+        logbtn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        logbtn.setLabel("Login");
+        logbtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
+                logbtnActionPerformed(evt);
             }
         });
 
@@ -260,12 +259,12 @@ public class Home extends javax.swing.JFrame {
                                 .addComponent(jLabel2)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addComponent(jButton4)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                        .addComponent(logbtn, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(jButton5))
+                                        .addComponent(clearbtn))
                                     .addComponent(pfPass, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addContainerGap(72, Short.MAX_VALUE))
+                        .addContainerGap(49, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(jLabel3)
@@ -273,7 +272,6 @@ public class Home extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel4)
                     .addComponent(jLabel8)
                     .addComponent(jLabel9))
                 .addContainerGap())
@@ -291,19 +289,18 @@ public class Home extends javax.swing.JFrame {
                     .addComponent(pfPass, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton4)
-                    .addComponent(jButton5))
+                    .addComponent(logbtn, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(clearbtn))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel4)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(31, 31, 31)
                 .addComponent(jLabel8)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel9)
                 .addGap(31, 31, 31))
         );
 
+        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("File Transfer"));
 
         jLabel6.setFont(new java.awt.Font("Berlin Sans FB", 0, 12)); // NOI18N
@@ -320,6 +317,7 @@ public class Home extends javax.swing.JFrame {
         jLabel7.setFont(new java.awt.Font("Berlin Sans FB", 0, 12)); // NOI18N
         jLabel7.setText("Send To");
 
+        jTextField3.setText("000.00.0.0");
         jTextField3.setToolTipText("Destination IP Address");
         jTextField3.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
         jTextField3.addCaretListener(new javax.swing.event.CaretListener() {
@@ -388,8 +386,30 @@ public class Home extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton7)
                     .addComponent(jButton8))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(73, Short.MAX_VALUE))
         );
+
+        twitterIco.setIcon(new javax.swing.ImageIcon(getClass().getResource("/appPackages/twitter_circle_black-512.png"))); // NOI18N
+        twitterIco.setToolTipText("Follow developer on twitter");
+        twitterIco.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        twitterIco.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                twitterIcoMousePressed(evt);
+            }
+        });
+
+        jLabel10.setText("Version 1.2");
+
+        chatRoom_btn.setBackground(new java.awt.Color(255, 255, 255));
+        chatRoom_btn.setFont(new java.awt.Font("Segoe MDL2 Assets", 0, 36)); // NOI18N
+        chatRoom_btn.setToolTipText("Enter chatroom");
+        chatRoom_btn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        chatRoom_btn.setLabel("");
+        chatRoom_btn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                chatRoom_btnActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -397,13 +417,24 @@ public class Home extends javax.swing.JFrame {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(18, 18, 18)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(sendBtn_, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(chatRoom_btn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addComponent(chat_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                        .addComponent(jLabel10)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(twitterIco)
+                        .addGap(15, 15, 15)))
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -411,17 +442,25 @@ public class Home extends javax.swing.JFrame {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 238, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGroup(jPanel3Layout.createSequentialGroup()
-                            .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(18, 18, 18)
-                            .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(23, 23, 23))
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addGap(12, 12, 12)
+                                .addComponent(chat_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(sendBtn_, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(chatRoom_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 238, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(twitterIco)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                                .addComponent(jLabel10)
+                                .addGap(9, 9, 9)))))
+                .addGap(26, 26, 26))
         );
 
         jMenu1.setText("File");
@@ -435,15 +474,6 @@ public class Home extends javax.swing.JFrame {
             }
         });
         jMenu1.add(jMenuItem3);
-
-        jMenuItem4.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_R, java.awt.event.InputEvent.CTRL_MASK));
-        jMenuItem4.setText("Record");
-        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem4ActionPerformed(evt);
-            }
-        });
-        jMenu1.add(jMenuItem4);
 
         jMenuItem5.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_MASK));
         jMenuItem5.setText("Send");
@@ -463,14 +493,14 @@ public class Home extends javax.swing.JFrame {
         });
         jMenu1.add(jMenuItem6);
 
-        jMenuItem7.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.ALT_MASK));
-        jMenuItem7.setText("Signout");
-        jMenuItem7.addActionListener(new java.awt.event.ActionListener() {
+        signoutMenu.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_B, java.awt.event.InputEvent.CTRL_MASK));
+        signoutMenu.setText("Back");
+        signoutMenu.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem7ActionPerformed(evt);
+                signoutMenuActionPerformed(evt);
             }
         });
-        jMenu1.add(jMenuItem7);
+        jMenu1.add(signoutMenu);
 
         jMenuBar1.add(jMenu1);
 
@@ -512,9 +542,17 @@ public class Home extends javax.swing.JFrame {
         jMenu4.setText("Time");
         jMenuBar1.add(jMenu4);
 
-        jMenu5.setText("Connection Status");
-        jMenu5.setToolTipText("Indicates if you have LAN connection");
-        jMenuBar1.add(jMenu5);
+        conActive.setText("");
+        conActive.setFont(new java.awt.Font("Segoe MDL2 Assets", 0, 12)); // NOI18N
+        jMenuBar1.add(conActive);
+
+        noCon.setText("");
+        noCon.setFont(new java.awt.Font("Segoe MDL2 Assets", 0, 12)); // NOI18N
+        jMenuBar1.add(noCon);
+
+        conStatus.setText("Connection Status");
+        conStatus.setToolTipText("Indicates if you have LAN connection");
+        jMenuBar1.add(conStatus);
 
         setJMenuBar(jMenuBar1);
 
@@ -524,25 +562,24 @@ public class Home extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(2, 2, 2)
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+    private void clearbtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearbtnActionPerformed
         // TODO add your handling code here:
         tfUser.setText("");
         pfPass.setText("");
         tfUser.requestFocus();
-    }//GEN-LAST:event_jButton5ActionPerformed
+  
+    }//GEN-LAST:event_clearbtnActionPerformed
 
     private void jLabel3MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MousePressed
         // TODO add your handling code here:
@@ -551,27 +588,26 @@ public class Home extends javax.swing.JFrame {
         this.hide();
     }//GEN-LAST:event_jLabel3MousePressed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+    private void sendBtn_ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sendBtn_ActionPerformed
         // TODO add your handling code here:
-        this.setSize(500, 290);
+        this.setSize(500, 300);
         jPanel1.hide();
         jPanel2.show();
         jTextField3.requestFocus();
-    }//GEN-LAST:event_jButton3ActionPerformed
-
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
-//        this.dispose();
-        //any changes made here,remember to make to Jmenu
-
-        
-    }//GEN-LAST:event_jButton2ActionPerformed
+        twitterIco.setVisible(false);
+       
+    }//GEN-LAST:event_sendBtn_ActionPerformed
 
     private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
         // TODO add your handling code here:
-        this.setSize(500, 285);
+//        this.setSize(500, 285);
+//        jPanel1.hide();
+//        jPanel2.show();
+        this.setSize(500, 300);
         jPanel1.hide();
         jPanel2.show();
+        jTextField3.requestFocus();
+        twitterIco.setVisible(false);
     }//GEN-LAST:event_jMenuItem5ActionPerformed
 
     private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
@@ -580,9 +616,9 @@ public class Home extends javax.swing.JFrame {
 //        close.show();
         int i = JOptionPane.showConfirmDialog(this, "ARE YOU SURE YOU WANT TO CLOSE?", "Confirm", JOptionPane.YES_NO_OPTION);
         if(i == JOptionPane.YES_OPTION){
-            new HomeBrowse().show();
-            this.hide();
-//            System.exit(0);
+//            new HomeBrowse().show();
+//            this.hide();
+            System.exit(0);
         }
         else{
         }
@@ -611,6 +647,7 @@ public class Home extends javax.swing.JFrame {
         int i = JOptionPane.showConfirmDialog(this, "ARE YOU SURE YOU WANT TO CANCEL?", "Confirm", JOptionPane.YES_NO_OPTION);
         if(i == JOptionPane.YES_OPTION){
         jPanel1.show();
+//        jPanel1.setSize(400, 335);
         jPanel2.hide();
         tfUser.requestFocus();
         }
@@ -638,13 +675,13 @@ public class Home extends javax.swing.JFrame {
         jTextField3.setText("");
     }//GEN-LAST:event_jTextField3CaretUpdate
 
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+    private void logbtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logbtnActionPerformed
         // TODO add your handling code here:
-        if(!"Signout".equals(jButton4.getText())){
+        if(!"Signout".equals(logbtn.getText())){
 //            jButton4.setToolTipText("Click to Sign out");
        String sPass= null;
        try{
-            String s= "select Password from login where Nickname= '"+
+            String s= "select Password from Login where Nickname= '"+
                     tfUser.getText().trim()+"'";
             ResultSet rs = db.stmt.executeQuery(s);
             while (rs.next()){
@@ -657,23 +694,22 @@ public class Home extends javax.swing.JFrame {
             dispose();
         }
          if (pfPass.getText().trim().equals(sPass.trim())){
-             jButton4.setText("Signout");
+             logbtn.setText("Signout");
              jMenu1.setEnabled(true);
-             jButton1.setEnabled(true);
+             chat_btn.setEnabled(true);
              cutMenuItem.setEnabled(true);
-             jMenuItem7.setEnabled(true);
+             signoutMenu.setEnabled(true);
         jMenuItem5.setEnabled(true);
-        jMenuItem4.setEnabled(true);
         jMenuItem3.setEnabled(true);
-        jButton2.setEnabled(true);
-        jButton3.setEnabled(true);
+        cutMenuItem.setEnabled(true);
+        sendBtn_.setEnabled(true);
         jLabel1.setEnabled(false);
         jLabel2.setEnabled(false);
         tfUser.setEnabled(false);
         pfPass.setEnabled(false);
-        jButton5.setEnabled(false);
-        jLabel3.setVisible(false);
-        
+        clearbtn.setEnabled(false);
+        jLabel3.setVisible(false);  
+        chatRoom_btn.setEnabled(true);
         }else{
              getToolkit().beep();
              pfPass.requestFocus();
@@ -685,28 +721,24 @@ public class Home extends javax.swing.JFrame {
 //        this.hide();
         }
         }else{
-            jButton4.setText("Login");
-            jButton4.setToolTipText("Click to login");
-            jButton1.setEnabled(false);
-        jMenuItem5.setEnabled(false);
-        jMenuItem4.setEnabled(false);
+            logbtn.setText("Login");
+            logbtn.setToolTipText("Click to login");
+            chat_btn.setEnabled(false);
         jMenuItem3.setEnabled(false);
-        jButton2.setEnabled(false);
-        jButton3.setEnabled(false);
+        cutMenuItem.setEnabled(false);
+        sendBtn_.setEnabled(false);
         jLabel1.setEnabled(true);
         jLabel2.setEnabled(true);
         tfUser.setEnabled(true);
         pfPass.setEnabled(true);
-        jButton5.setEnabled(true);
+        clearbtn.setEnabled(true);
         jLabel3.setVisible(true);
-        tfUser.setText("");
         pfPass.setText("");
-       tfUser.requestFocus();
-       jMenuItem7.setEnabled(false);
-
-        }
-    
-    }//GEN-LAST:event_jButton4ActionPerformed
+        pfPass.requestFocus();
+       signoutMenu.setEnabled(false);
+       chatRoom_btn.setEnabled(false);
+        }   
+    }//GEN-LAST:event_logbtnActionPerformed
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
 //JOptionPane.showConfirmDialog(this, "YOUR IP ADDRESS IS "+pitchtalk1.pkg1.ipClass.ipAddress, "IP ADDRESS",JOptionPane.INFORMATION_MESSAGE);
@@ -767,7 +799,7 @@ public class Home extends javax.swing.JFrame {
     private void pfPassKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_pfPassKeyPressed
         // TODO add your handling code here:
         if (evt.getKeyCode() == KeyEvent.VK_ENTER){
-            if(!"Signout".equals(jButton4.getText())){
+            if(!"Signout".equals(logbtn.getText())){
 //            jButton4.setToolTipText("Click to Sign out");
        String sPass= null;
        try{
@@ -784,51 +816,46 @@ public class Home extends javax.swing.JFrame {
             dispose();
         }
          if (pfPass.getText().trim().equals(sPass.trim())){
-             jButton4.setText("Signout");
-             jButton1.setEnabled(true);
+             logbtn.setText("Signout");
+             chat_btn.setEnabled(true);
              cutMenuItem.setEnabled(true);
         jMenuItem5.setEnabled(true);
-        jMenuItem4.setEnabled(true);
         jMenuItem3.setEnabled(true);
-        jButton2.setEnabled(true);
-        jButton3.setEnabled(true);
+        sendBtn_.setEnabled(true);
         jLabel1.setEnabled(false);
         jLabel2.setEnabled(false);
         tfUser.setEnabled(false);
         pfPass.setEnabled(false);
-        jButton5.setEnabled(false);
-        jLabel3.setVisible(false);        
+        clearbtn.setEnabled(false);
+        jLabel3.setVisible(false);  
+        chatRoom_btn.setEnabled(true);
         }else{
              getToolkit().beep();
              pfPass.requestFocus();
             JOptionPane.showMessageDialog(this, "RE-ENTER PASSWORD", "WRONG PASSWORD", JOptionPane.ERROR_MESSAGE);
-            pfPass.setText("");
+            pfPass.selectAll();
             
 //            Credentials credentials = new Credentials();
 //        credentials.show();
 //        this.hide();
         }
         }else{
-            jButton4.setText("Login");
-            jButton4.setToolTipText("Click to login");
-            jButton1.setEnabled(false);
+            logbtn.setText("Login");
+            logbtn.setToolTipText("Click to login");
+            chat_btn.setEnabled(false);
         jMenuItem5.setEnabled(false);
-        jMenuItem4.setEnabled(false);
         jMenuItem3.setEnabled(false);
-        jButton2.setEnabled(false);
-        jButton3.setEnabled(false);
+        sendBtn_.setEnabled(false);
         jLabel1.setEnabled(true);
         jLabel2.setEnabled(true);
         tfUser.setEnabled(true);
         pfPass.setEnabled(true);
-        jButton5.setEnabled(true);
+        clearbtn.setEnabled(true);
         jLabel3.setVisible(true);
         tfUser.setText("");
         pfPass.setText("");
        tfUser.requestFocus();        
-        }
-            
-            
+        }     
         }
     }//GEN-LAST:event_pfPassKeyPressed
 
@@ -836,7 +863,7 @@ public class Home extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void chat_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chat_btnActionPerformed
         // TODO add your handling code here:
 //        if(!mainOpen){
 //            MainScreen mainScreen = new MainScreen();
@@ -848,26 +875,26 @@ public class Home extends javax.swing.JFrame {
 //            getToolkit().beep();
 //        }
         dispose();
-        new MainScreen().show();
-    }//GEN-LAST:event_jButton1ActionPerformed
+//        this.setSize(550, 647);
+         MainScreen mainScreen = new MainScreen();
+         mainScreen.setSize(550, 647);
+        mainScreen.show();
+//        new MainScreen().Name.setText(this.tfUser.getText());
+        
+        
+    }//GEN-LAST:event_chat_btnActionPerformed
 
-    private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
+    private void signoutMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_signoutMenuActionPerformed
         // TODO add your handling code here:
         dispose();
         new HomeBrowse().show();
-    }//GEN-LAST:event_jMenuItem7ActionPerformed
+    }//GEN-LAST:event_signoutMenuActionPerformed
 
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
         // TODO add your handling code here:
         new MainScreen().show();
         hide();
     }//GEN-LAST:event_jMenuItem3ActionPerformed
-
-    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
-        // TODO add your handling code here:
-
-        this.disable();
-    }//GEN-LAST:event_jMenuItem4ActionPerformed
 
     private void cutMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cutMenuItemActionPerformed
         // TODO add your handling code here:
@@ -891,6 +918,28 @@ public class Home extends javax.swing.JFrame {
 //        send.show();
         
     }//GEN-LAST:event_jButton8ActionPerformed
+
+    private void twitterIcoMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_twitterIcoMousePressed
+        // TODO add your handling code here:
+            if(conStatus.getText().equals("LAN Connection Available")){
+                        try {
+            String URL ="https://twitter.com/KhanWest_gh";
+            java.awt.Desktop.getDesktop().browse(java.net.URI.create(URL));
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
+            }else{
+                JOptionPane.showMessageDialog(this, "THIS DEVICE ISN'T CONNECTED TO THE INTERNET", "WARNING", JOptionPane.WARNING_MESSAGE);
+            }
+
+    }//GEN-LAST:event_twitterIcoMousePressed
+
+    private void chatRoom_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chatRoom_btnActionPerformed
+        // TODO add your handling code here:
+        dispose();
+        client.LoginForm login = new LoginForm();
+        login.show();
+    }//GEN-LAST:event_chatRoom_btnActionPerformed
 
     /**
      * @param args the command line arguments
@@ -929,19 +978,19 @@ public class Home extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton chatRoom_btn;
+    private javax.swing.JButton chat_btn;
+    private javax.swing.JButton clearbtn;
+    private javax.swing.JMenu conActive;
+    private javax.swing.JMenu conStatus;
     private javax.swing.JMenuItem cutMenuItem;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JToggleButton jButton4;
-    private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
@@ -950,21 +999,23 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu4;
-    private javax.swing.JMenu jMenu5;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
-    private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem6;
-    private javax.swing.JMenuItem jMenuItem7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
+    private javax.swing.JToggleButton logbtn;
+    private javax.swing.JMenu noCon;
     private javax.swing.JPasswordField pfPass;
+    private javax.swing.JButton sendBtn_;
+    private javax.swing.JMenuItem signoutMenu;
     public static javax.swing.JTextField tfUser;
+    private javax.swing.JLabel twitterIco;
     // End of variables declaration//GEN-END:variables
 }
